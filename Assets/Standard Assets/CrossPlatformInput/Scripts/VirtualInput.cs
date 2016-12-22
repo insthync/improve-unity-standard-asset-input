@@ -35,18 +35,17 @@ namespace UnityStandardAssets.CrossPlatformInput
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.name))
             {
-                Debug.LogError("There is already a virtual axis named " + axis.name + " registered.");
+                Debug.LogWarning("There is already a virtual axis named " + axis.name + " registered.");
+                m_VirtualAxes.Remove(axis.name);
+                m_AlwaysUseVirtual.Remove(axis.name);
             }
-            else
-            {
-                // add any new axes
-                m_VirtualAxes.Add(axis.name, axis);
+            // add any new axes
+            m_VirtualAxes.Add(axis.name, axis);
 
-                // if we dont want to match with the input manager setting then revert to always using virtual
-                if (!axis.matchWithInputManager)
-                {
-                    m_AlwaysUseVirtual.Add(axis.name);
-                }
+            // if we dont want to match with the input manager setting then revert to always using virtual
+            if (!axis.matchWithInputManager)
+            {
+                m_AlwaysUseVirtual.Add(axis.name);
             }
         }
 
@@ -57,17 +56,16 @@ namespace UnityStandardAssets.CrossPlatformInput
             if (m_VirtualButtons.ContainsKey(button.name))
             {
                 Debug.LogError("There is already a virtual button named " + button.name + " registered.");
+                m_VirtualButtons.Remove(button.name);
+                m_AlwaysUseVirtual.Remove(button.name);
             }
-            else
-            {
-                // add any new buttons
-                m_VirtualButtons.Add(button.name, button);
+            // add any new buttons
+            m_VirtualButtons.Add(button.name, button);
 
-                // if we dont want to match to the input manager then always use a virtual axis
-                if (!button.matchWithInputManager)
-                {
-                    m_AlwaysUseVirtual.Add(button.name);
-                }
+            // if we dont want to match to the input manager then always use a virtual axis
+            if (!button.matchWithInputManager)
+            {
+                m_AlwaysUseVirtual.Add(button.name);
             }
         }
 
